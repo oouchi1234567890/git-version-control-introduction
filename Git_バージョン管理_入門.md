@@ -505,6 +505,96 @@ build/
 
 除外内容は、利用言語やチームのルールに合わせます。`.gitignore` 自体は通常コミットして共有します。
 
+以下は言語・環境別の追加例です。必要な設定だけを選び、1つの `.gitignore` にまとめます。
+
+### 9.1 Python開発での除外例
+
+```gitignore
+# Python開発での除外例
+.history/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+debug.log
+```
+
+| 設定 | 使用する言語・環境と用途 |
+| --- | --- |
+| `.history/` | 言語共通。エディタ拡張機能などのローカル編集履歴。Gitの `.git/` とは別 |
+| `__pycache__/` | Pythonが生成するバイトコードのキャッシュ |
+| `*.py[cod]` | Pythonの `.pyc`、`.pyo`、`.pyd` に一致。バイトコード、旧形式の最適化ファイル、Windowsの拡張モジュールなど |
+| `.venv/`、`venv/`、`env/` | Pythonの仮想環境に使う代表的なフォルダ名。依存パッケージなどを含む |
+| `debug.log` | 言語共通。アプリやツールのデバッグログ。Python専用ではない |
+
+`.env` は設定ファイル、`env/` はここでは仮想環境のフォルダです。`*.log` を設定済みなら `debug.log` も対象になります。
+
+仮想環境は各開発者が作成し、`requirements.txt` や `pyproject.toml` などの依存関係の定義を共有します。`.pyd` を配布物として管理する場合や、`env/` にソースを置く場合は除外設定を調整してください。
+
+参考：[GitHubのPython向けテンプレート](https://github.com/github/gitignore/blob/main/Python.gitignore)
+
+### 9.2 Java開発での除外例
+
+```gitignore
+# Java開発での除外例
+*.class
+target/
+.gradle/
+build/
+hs_err_pid*
+replay_pid*
+```
+
+| 設定 | 使用する言語・環境と用途 |
+| --- | --- |
+| `*.class` | Javaコンパイラが生成するクラスファイル |
+| `target/` | Mavenの標準的なビルド出力先。クラス、テスト結果、生成したJARなど |
+| `.gradle/` | Gradleのプロジェクト内キャッシュや作業情報 |
+| `build/` | Gradleの標準的なビルド出力先。ほかの言語でも使われる名前 |
+| `hs_err_pid*`、`replay_pid*` | JVMの異常終了などを調べるための診断ファイル |
+
+`src/`、`pom.xml`、`build.gradle`、`build.gradle.kts` などのソースやビルド定義は通常共有します。使用するWrapperの `mvnw`、`mvnw.cmd`、`.mvn/wrapper/`、`gradlew`、`gradlew.bat`、`gradle/wrapper/` も共有対象です。`.gradle/` と `gradle/` は別のフォルダです。
+
+`*.jar` や `*.war` の一括除外は、必要な配布物やWrapperのJARまで除外する場合があります。まずは `target/` や `build/` などの生成先を指定します。
+
+参考：[GitHubのJava向けテンプレート](https://github.com/github/gitignore/blob/main/Java.gitignore)
+
+### 9.3 JavaScript開発での除外例
+
+```gitignore
+# JavaScript開発での除外例
+node_modules/
+dist/
+coverage/
+.vite/
+.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+| 設定 | 使用する言語・環境と用途 |
+| --- | --- |
+| `node_modules/` | JavaScript／Node.js開発でインストールする依存パッケージ |
+| `dist/` | Viteなどのビルド成果物。実際の出力先は設定による |
+| `coverage/` | テストツールが生成するカバレッジレポート |
+| `.vite/` | Vite関連のキャッシュなど。場所は設定によって異なる |
+| `.next/` | Next.jsのビルド成果物やキャッシュ |
+| `npm-debug.log*`、`yarn-debug.log*`、`yarn-error.log*` | npmやYarnの診断ログ |
+
+`package.json` と使用するパッケージマネージャーのロックファイル（`package-lock.json`、`yarn.lock`、`pnpm-lock.yaml` など）は通常共有します。`node_modules/` は依存関係の定義から各環境で再作成します。
+
+単純なブラウザ用JavaScriptでNode.jsやビルドツールを使わない場合、不要な設定は追加しません。`dist/` をリポジトリで配布する運用では、除外するかチームで確認します。
+
+参考：[GitHubのNode.js向けテンプレート](https://github.com/github/gitignore/blob/main/Node.gitignore)
+
+### 9.4 設定後の確認
+
+末尾の `/` はフォルダを対象にします。`*` は任意の文字列、`[cod]` は `c`・`o`・`d` のいずれか1文字に一致します。ソースや共有すべき設定まで除外しないよう確認してください。
+
+`git status` で状態を確認します。`git check-ignore -v .venv/pyvenv.cfg` などで、一致した除外設定とその場所を確認できます。
+
 すでに追跡しているファイルは、`.gitignore` に書くだけでは追跡が止まりません。また、履歴中の情報が消えるわけでもありません。APIキーやパスワードを含むファイルは、最初のadd前に確認しましょう。
 
 ## 10. リモート連携の予備知識

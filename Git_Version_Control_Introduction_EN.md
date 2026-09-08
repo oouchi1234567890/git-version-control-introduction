@@ -505,6 +505,96 @@ build/
 
 Adjust the exclusions to your programming language and team conventions. The `.gitignore` file itself is normally committed and shared.
 
+Choose the following additional rules for the languages and tools you use, and combine them into one `.gitignore`.
+
+### 9.1 Python Development Examples
+
+```gitignore
+# Python Development Examples
+.history/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+debug.log
+```
+
+| Pattern | Language, environment, and purpose |
+| --- | --- |
+| `.history/` | Any language: local edit history from editor extensions, separate from Git’s `.git/` directory |
+| `__pycache__/` | Python bytecode caches |
+| `*.py[cod]` | Matches Python’s `.pyc`, `.pyo`, and `.pyd`: bytecode, older optimized files, and Windows extension modules |
+| `.venv/`, `venv/`, `env/` | Common Python virtual environment directory names, containing dependencies and other environment files |
+| `debug.log` | Any language: application or tool debugging output; not specific to Python |
+
+`.env` is a configuration file, while `env/` here is a virtual environment directory. If `*.log` is already configured, it also covers `debug.log`.
+
+Developers create their own environments and share dependency definitions such as `requirements.txt` or `pyproject.toml`. Adjust exclusions if you intentionally distribute `.pyd` files or use `env/` for source code.
+
+Reference: [GitHub’s Python template](https://github.com/github/gitignore/blob/main/Python.gitignore)
+
+### 9.2 Java Development Examples
+
+```gitignore
+# Java Development Examples
+*.class
+target/
+.gradle/
+build/
+hs_err_pid*
+replay_pid*
+```
+
+| Pattern | Language, environment, and purpose |
+| --- | --- |
+| `*.class` | Class files produced by the Java compiler |
+| `target/` | Maven’s usual output directory for classes, test results, and generated JARs |
+| `.gradle/` | Project-local Gradle caches and working data |
+| `build/` | Gradle’s usual output directory; other languages may use this name |
+| `hs_err_pid*`, `replay_pid*` | Diagnostic files for JVM crashes and related analysis |
+
+Normally share source and build definitions such as `src/`, `pom.xml`, `build.gradle`, and `build.gradle.kts`. Also share the Wrapper files you use: `mvnw`, `mvnw.cmd`, `.mvn/wrapper/`, `gradlew`, `gradlew.bat`, and `gradle/wrapper/`. `.gradle/` and `gradle/` are different directories.
+
+Blanket `*.jar` or `*.war` exclusions can hide required distribution files or Wrapper JARs. Start by excluding output directories such as `target/` and `build/`.
+
+Reference: [GitHub’s Java template](https://github.com/github/gitignore/blob/main/Java.gitignore)
+
+### 9.3 JavaScript Development Examples
+
+```gitignore
+# JavaScript Development Examples
+node_modules/
+dist/
+coverage/
+.vite/
+.next/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+| Pattern | Language, environment, and purpose |
+| --- | --- |
+| `node_modules/` | Dependencies installed for JavaScript / Node.js development |
+| `dist/` | Build output from tools such as Vite; the actual path depends on configuration |
+| `coverage/` | Test coverage reports |
+| `.vite/` | Vite-related caches; the location depends on configuration |
+| `.next/` | Next.js build output and caches |
+| `npm-debug.log*`, `yarn-debug.log*`, `yarn-error.log*` | npm and Yarn diagnostic logs |
+
+Normally share `package.json` and your package manager’s lockfile, such as `package-lock.json`, `yarn.lock`, or `pnpm-lock.yaml`. Recreate `node_modules/` from the dependency definitions in each environment.
+
+For simple browser JavaScript without Node.js or build tools, omit settings you do not need. If your team distributes built files through the repository, check whether `dist/` should be excluded.
+
+Reference: [GitHub’s Node.js template](https://github.com/github/gitignore/blob/main/Node.gitignore)
+
+### 9.4 Check Your Configuration
+
+A trailing `/` matches directories. `*` matches any string, and `[cod]` matches one character: `c`, `o`, or `d`. Check that you are not excluding source code or settings that should be shared.
+
+Use `git status` to inspect the state. A command such as `git check-ignore -v .venv/pyvenv.cfg` shows the matching exclusion rule and its location.
+
 Adding an already tracked file to `.gitignore` does not stop Git from tracking it. It also does not erase information from history. Check for files containing API keys or passwords before the first add.
 
 ## 10. An Introduction to Remote Collaboration
