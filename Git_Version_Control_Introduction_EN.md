@@ -713,7 +713,7 @@ Established: August 30, 2026 / Revised: September 8, 2026
 
 - Online publication of this public edition by the copyright holder or an authorized publisher, and viewing by the general public
 - Private, non-commercial study by individuals, including viewing and saving copies from a public repository
-- Modification and addition by instructors, and reproduction and distribution to instructors and participants, to the extent necessary for classes conducted by Heatwave Co., Ltd. (ヒートウェーブ株式会社)
+- Modification, adaptation, and supplementation by instructors, as well as reproduction and distribution to instructors and participants, are permitted to the extent necessary for teaching and learning.
 - Projection and screen sharing within those classes, with this notice retained
 
 **Prohibited Uses**
